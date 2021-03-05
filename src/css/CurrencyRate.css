@@ -1,0 +1,9 @@
+.rate-box{
+	float: right;
+	margin: 8px;
+}
+.currency-rate {
+	/* background-color: rgb(114, 179, 123); */
+	margin: 6px;
+	margin-right: 10px;
+}
