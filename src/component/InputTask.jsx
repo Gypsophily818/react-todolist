@@ -7,7 +7,6 @@ export default function InputTask(props) {
   const task = useRef(null);
   const enterPrice = useRef(null);
   const currency = useRef(null);
-  const [newPlan, setNewplan] = useState({});
 
   const clickCCY = (v) => {
     // 显示隐藏
@@ -37,63 +36,37 @@ export default function InputTask(props) {
     }
     if (currency.current.value === "RUB") {
       //卢币单位为1时
-      setNewplan({
-        // { id: 5, finished: false, plan: "去学习" },
-        id: Date.now(),
-        finished: false,
-        plan: task.current.value,
-        RUB: price,
-        CNY: formatMoney(price / rate.RUB.previous),
-        USD: formatMoney((price / rate.RUB.previous) * rate.USD.previous),
-      });
       getval = {
         // { id: 5, finished: false, plan: "去学习" },
         id: Date.now(),
         finished: false,
         plan: task.current.value,
-        RUB: price,
+        RUB: formatMoney(price),
         CNY: formatMoney(price / rate.RUB.previous),
         USD: formatMoney((price / rate.RUB.previous) * rate.USD.previous),
       };
     } else if (currency.current.value === "CNY") {
       //人民币单位为1时
-      setNewplan({
-        id: Date.now(),
-        finished: false,
-        plan: task.current.value,
-        RUB: formatMoney(price * rate.RUB.previous),
-        CNY: price,
-        USD: formatMoney(price * rate.USD.previous),
-      });
       getval = {
         id: Date.now(),
         finished: false,
         plan: task.current.value,
         RUB: formatMoney(price * rate.RUB.previous),
-        CNY: price,
+        CNY: formatMoney(price),
         USD: formatMoney(price * rate.USD.previous),
       };
     } else {
       //美元单位为1时
-      setNewplan({
-        id: Date.now(),
-        finished: false,
-        plan: task.current.value,
-        RUB: formatMoney((price / rate.USD.previous) * rate.RUB.previous),
-        CNY: formatMoney(price / rate.USD.previous),
-        USD: price,
-      });
       getval = {
         id: Date.now(),
         finished: false,
         plan: task.current.value,
         RUB: formatMoney((price / rate.USD.previous) * rate.RUB.previous),
         CNY: formatMoney(price / rate.USD.previous),
-        USD: price,
+        USD: formatMoney(price),
       };
     }
     // 添加
-    // newPlan && console.log("addPlan", newPlan);
     props.addPlan(getval);
     // 重置
     enterPrice.current.value = "";

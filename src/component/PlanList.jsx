@@ -7,7 +7,6 @@ export default function PlanList(props) {
   /* ₽/￥  ₽/$ ￥/$ 
 		 RUB   CNY USD
 	*/
-
   return (
     <li>
       <input
