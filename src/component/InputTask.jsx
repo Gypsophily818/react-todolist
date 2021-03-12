@@ -1,108 +1,103 @@
-import CCYitem from "./CCYitem";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import styled from "styled-components";
 
-export default function InputTask(props) {
-  const [value, setValue] = useState("");
+export default function InputTask({ addPlan }) {
+  // 组件样式
+  const Button = styled.button`
+    cursor: pointer;
+    background-color: rgb(220, 220, 220);
+    outline: none;
+    border-radius: 5px;
+    padding: 5 30px;
+    height: 30px;
+    display: block;
+    width: 100px;
+    color: rgb(37, 32, 32);
+    border: none;
+  `;
+  // 组件状态
+  const currencies = ["RUB", "CNY", "USD"];
+  const [task, setTask] = useState("");
+  const [enterPrice, setVEnterPrice] = useState("");
+  const [currency, setCurrency] = useState("");
+
   const [showCCY, setShowCCY] = useState(false);
-  const task = useRef(null);
-  const enterPrice = useRef(null);
-  const currency = useRef(null);
 
-  const clickCCY = (v) => {
+  const clickCCY = (val) => {
     // 显示隐藏
     setShowCCY(false);
     // 选择货币类型
-    setValue(v);
+    setCurrency(val);
   };
-  function formatMoney(price) {
-    // formatMoney
-    return price.toPrecision(6);
-  }
-
-  function addPlanHander() {
-    let price = enterPrice.current.value * 1; //当前填入价格
-    const rate = props.rate; //汇率
+  const clearState = () => {
+    setTask("");
+    setVEnterPrice("");
+    setCurrency("");
+  };
+  function addPlanHandler() {
+    let price = enterPrice * 1; //当前填入价格
     let getval = {};
-    console.log(price);
-    // console.log(task.current.value, price, currency);
+    console.log(task, enterPrice, currency);
     if (
       typeof price !== "number" ||
       isNaN(price) ||
+      task === "" ||
       price === 0 ||
-      task.current.value === "" ||
-      currency.current.value === ""
+      currency === ""
     ) {
-      return alert("请确认输入格式~");
+      return alert("输入错误，请重新输入！");
     }
-    if (currency.current.value === "RUB") {
-      //卢币单位为1时
-      getval = {
-        // { id: 5, finished: false, plan: "去学习" },
-        id: Date.now(),
-        finished: false,
-        plan: task.current.value,
-        RUB: formatMoney(price),
-        CNY: formatMoney(price / rate.RUB.previous),
-        USD: formatMoney((price / rate.RUB.previous) * rate.USD.previous),
-      };
-    } else if (currency.current.value === "CNY") {
-      //人民币单位为1时
-      getval = {
-        id: Date.now(),
-        finished: false,
-        plan: task.current.value,
-        RUB: formatMoney(price * rate.RUB.previous),
-        CNY: formatMoney(price),
-        USD: formatMoney(price * rate.USD.previous),
-      };
-    } else {
-      //美元单位为1时
-      getval = {
-        id: Date.now(),
-        finished: false,
-        plan: task.current.value,
-        RUB: formatMoney((price / rate.USD.previous) * rate.RUB.previous),
-        CNY: formatMoney(price / rate.USD.previous),
-        USD: formatMoney(price),
-      };
-    }
-    // 添加
-    props.addPlan(getval);
+    getval = {
+      id: Date.now(),
+      finished: false,
+      plan: task,
+      price,
+      currency,
+    };
+    // // 添加
+    addPlan(getval);
     // 重置
-    enterPrice.current.value = "";
-    task.current.value = "";
-    currency.current.value = "";
+    clearState();
   }
 
   return (
     <div className="Task-header">
       <div className="left">
-        <input className="task" type="text" placeholder="任务" ref={task} />
+        <input
+          className="task"
+          type="text"
+          placeholder="任务"
+          value={task}
+          onChange={(e) => {
+            setTask(e.target.value);
+          }}
+        />
         <input
           className="price"
           type="text"
           placeholder="价格"
-          ref={enterPrice}
+          value={enterPrice}
+          onChange={(e) => {
+            setVEnterPrice(e.target.value);
+          }}
         />
       </div>
 
       <div className="select-box">
         <input
           className="currency"
-          value={value}
+          value={currency}
           onChange={(e) => {
-            e.target.value = value;
+            setCurrency(e.target.value);
           }}
           type="text"
           placeholder="货币类型"
-          ref={currency}
         />
 
         <span
           className="icon"
           onClick={(e) => {
             e.preventDefault();
-            // console.log(showCCY);
             showCCY ? setShowCCY(false) : setShowCCY(true);
           }}
         >
@@ -110,29 +105,30 @@ export default function InputTask(props) {
         </span>
         {showCCY ? (
           <ul className="select-CCY">
-            {props.CCY.map((item, index) => (
-              <CCYitem
+            {currencies.map((currency, index) => (
+              <li
+                className="ccy-item"
                 key={index}
-                ccy={item}
-                showCCY={setShowCCY}
-                clickCCY={(item) => {
-                  clickCCY(item);
+                onClick={() => {
+                  clickCCY(currency);
                 }}
-              ></CCYitem>
+              >
+                {currency}
+              </li>
             ))}
           </ul>
         ) : (
           ""
         )}
       </div>
-      <button
+      <Button
         className="add"
         onClick={() => {
-          addPlanHander();
+          addPlanHandler();
         }}
       >
         添加
-      </button>
+      </Button>
     </div>
   );
 }

@@ -67,16 +67,3 @@ input {
 .select-CCY li:hover {
 	background-color: #ccc;
 }
-
-.add {
-	cursor: pointer;
-	background-color: rgb(220, 220, 220);
-	outline: none;
-	border-radius: 5px;
-	padding: 5 30px;
-	height: 30px;
-	display: block;
-	width: 100px;
-	color: rgb(37, 32, 32);
-	border: none;
-}
