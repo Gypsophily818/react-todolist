@@ -1,32 +1,14 @@
-import styled from "styled-components";
+// import styled from "styled-components";
+import {
+  Wrapper,
+  Title,
+  Totalwrapper,
+  TotalLeft,
+  TotalRight,
+  TotalItem,
+} from "../css/style";
 import Planitem from "./Planitem";
 export default function Isfinishedjob({ isfinished, job, clickPlan, rate }) {
-  // 组件样式
-  const Wrapper = styled.div`
-    clear: both;
-    margin-bottom: 30px;
-  `;
-  const Title = styled.p`
-    text-align: left;
-    padding: 8px 0;
-  `;
-
-  const Totalwrapper = styled.div`
-    display: flex;
-    padding: 8px 0;
-  `;
-  const TotalLeft = styled.div`
-    text-align: left;
-    flex: 1;
-  `;
-  const TotalRight = styled.div`
-    text-align: center;
-  `;
-  const TotalItem = styled.span`
-    margin: 0 30px;
-    display: inline-block;
-  `;
-
   // 格式价格
   function formatMoney(price) {
     return price.toPrecision(6);

@@ -1,20 +1,7 @@
 import { useState } from "react";
-import styled from "styled-components";
+import { Button } from "../css/style";
 
 export default function InputTask({ addPlan }) {
-  // 组件样式
-  const Button = styled.button`
-    cursor: pointer;
-    background-color: rgb(220, 220, 220);
-    outline: none;
-    border-radius: 5px;
-    padding: 5 30px;
-    height: 30px;
-    display: block;
-    width: 100px;
-    color: rgb(37, 32, 32);
-    border: none;
-  `;
   // 组件状态
   const currencies = ["RUB", "CNY", "USD"];
   const [task, setTask] = useState("");
