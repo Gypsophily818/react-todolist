@@ -20,6 +20,7 @@ export default function Isfinishedjob({ isfinished, job, clickPlan, rate }) {
   // 人民币
   sum_CNY = job
     .map((item) => {
+      // debugger
       return item.CNY * 1;
     })
     .reduce((pre, next) => pre + next);

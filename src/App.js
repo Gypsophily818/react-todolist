@@ -28,21 +28,25 @@ function App() {
   // 处理汇率
   let RUB, CNY, USD;
   function forexHandler(currency, price) {
-    if (currency === "RUB") {
-      //货币类型为卢币时
-      CNY = price / rate.RUB.previous;
-      USD = (price / rate.RUB.previous) * rate.USD.previous;
-      RUB = price;
-    } else if (currency === "CNY") {
-      //人民币时
-      RUB = price * rate.RUB.previous;
-      USD = price * rate.USD.previous;
-      CNY = price;
-    } else {
-      //美元时
-      RUB = (price / rate.USD.previous) * rate.RUB.previous;
-      CNY = price / rate.USD.previous;
-      USD = price;
+    switch (currency) {
+      case "RUB": //货币类型为卢币
+        CNY = price / rate.RUB.value;
+        USD = (price / rate.RUB.value) * rate.USD.value;
+        RUB = price;
+        break;
+      case "USD": //美元
+        RUB = (price / rate.USD.value) * rate.RUB.value;
+        CNY = price / rate.USD.value;
+        USD = price;
+        break;
+      case "CNY": //人民币
+        RUB = price * rate.RUB.value;
+        USD = price * rate.USD.value;
+        CNY = price;
+        break;
+
+      default:
+        break;
     }
     // 格式价格
     CNY = formatMoney(CNY);
